@@ -1,0 +1,282 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: #050505;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-snap deck container
+--------------------------------------------------------------------------- */
+.deck-container {
+  height: 100vh;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+}
+.deck-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  overflow: hidden;
+  contain: layout;
+}
+
+/* ---------------------------------------------------------------------------
+   Typography helpers
+--------------------------------------------------------------------------- */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #c9a84c, #f0d080, #c9a84c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.hero-title {
+  font-size: clamp(3.5rem, 9vw, 11rem);
+  line-height: 0.92;
+}
+
+.section-title {
+  font-size: clamp(2.25rem, 5vw, 5rem);
+  line-height: 1.02;
+}
+
+/* ---------------------------------------------------------------------------
+   Hero cinematic background — fully self-contained (no external assets).
+   A drifting "aurora" mesh of blurred color blobs over near-black, with a
+   diagonal light sweep, particles, and film grain layered on top.
+--------------------------------------------------------------------------- */
+.hero-aurora {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 110%, rgba(26, 13, 5, 0.9), transparent 60%),
+    linear-gradient(160deg, #050505 0%, #0a0805 45%, #100a04 100%);
+  overflow: hidden;
+}
+
+.hero-blob {
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  max-width: 900px;
+  max-height: 900px;
+  border-radius: 50%;
+  filter: blur(80px);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+.hero-blob--gold {
+  top: -10%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.55), transparent 65%);
+  animation: blobDriftA 26s ease-in-out infinite;
+}
+.hero-blob--amber {
+  bottom: -18%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(224, 122, 60, 0.42), transparent 65%);
+  animation: blobDriftB 32s ease-in-out infinite;
+}
+.hero-blob--indigo {
+  top: 30%;
+  left: 35%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(94, 84, 168, 0.32), transparent 65%);
+  animation: blobDriftC 38s ease-in-out infinite;
+}
+.hero-aurora--static .hero-blob {
+  animation: none;
+}
+
+@keyframes blobDriftA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(12vw, 8vh) scale(1.15); }
+}
+@keyframes blobDriftB {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-10vw, -6vh) scale(0.92); }
+}
+@keyframes blobDriftC {
+  0%, 100% { transform: translate(0, 0) scale(0.95); }
+  50% { transform: translate(-8vw, 10vh) scale(1.2); }
+}
+
+/* Diagonal light sweep */
+.hero-sweep {
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    rgba(240, 208, 128, 0.07) 48%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 60%
+  );
+  animation: heroSweep 14s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes heroSweep {
+  0% { transform: translateX(-30%) rotate(0deg); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: translateX(30%) rotate(0deg); opacity: 0; }
+}
+
+/* Film grain — adds a tactile, cinematic texture */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Gold shimmer particles fallback layer */
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Ticker marquee
+--------------------------------------------------------------------------- */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll indicator bounce
+--------------------------------------------------------------------------- */
+@keyframes chevronBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+.chevron-bounce {
+  animation: chevronBounce 2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   Topographic / grid background helpers
+--------------------------------------------------------------------------- */
+.grid-bg {
+  background-image: linear-gradient(rgba(201, 168, 76, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 168, 76, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.dot-glow {
+  box-shadow: 0 0 12px 2px rgba(201, 168, 76, 0.55);
+}
+
+/* Vertical pinstripe rhythm — evokes a couture boutique facade */
+.luxury-stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(201, 168, 76, 0.08) 0px,
+    rgba(201, 168, 76, 0.08) 1px,
+    transparent 1px,
+    transparent 38px
+  );
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+/* Hide scrollbar inside horizontal scroll regions */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Focus visibility — keyboard users get a clear gold ring everywhere.
+--------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid rgba(201, 168, 76, 0.9);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Respect reduced-motion: kill ambient/looping animations and smooth scroll.
+   Entrance transitions are driven by Framer Motion, which already honors the
+   OS setting; this covers the CSS-only animations.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .deck-container {
+    scroll-behavior: auto;
+  }
+  .ticker-track,
+  .chevron-bounce,
+  .hero-sweep,
+  .hero-blob {
+    animation: none !important;
+  }
+}
