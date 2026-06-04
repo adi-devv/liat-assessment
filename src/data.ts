@@ -257,6 +257,17 @@ export const EVENT_TYPES = [
   },
 ]
 
+// Named, bookable venues — surfaces performing-arts and exposition/convention
+// capability explicitly for event promoters and producers.
+export const EVENT_VENUES = [
+  'Performing Arts Theater',
+  'Exposition & Convention Center',
+  '5,000-Capacity Live Stage',
+  'Grand Court Activations',
+  'Rooftop Event Terraces',
+  'NHL-Regulation Arena',
+]
+
 // --- Leasing ----------------------------------------------------------------
 export interface LeasingPath {
   kicker: string

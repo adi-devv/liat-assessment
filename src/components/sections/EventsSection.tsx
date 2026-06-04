@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { EVENT_TYPES } from '../../data'
+import { EVENT_TYPES, EVENT_VENUES } from '../../data'
 import { useModal } from '../../ModalContext'
 import SectionShell, { itemVariants } from '../ui/SectionShell'
 
@@ -25,7 +25,7 @@ export default function EventsSection() {
             The Most Powerful Brand Platform in America
           </motion.h2>
 
-          <div className="mt-9 grid grid-cols-1 gap-10 lg:grid-cols-12">
+          <div className="mt-7 grid grid-cols-1 gap-8 lg:grid-cols-12">
             {/* Left editorial */}
             <motion.div variants={itemVariants} className="lg:col-span-5">
               <div className="space-y-5 text-base leading-relaxed text-white/85">
@@ -70,7 +70,7 @@ export default function EventsSection() {
               {EVENT_TYPES.map((e) => (
                 <div
                   key={e.title}
-                  className="group rounded-lg border border-dark-3 bg-dark-2/50 p-5 transition-colors duration-300 hover:border-gold/40"
+                  className="group rounded-lg border border-dark-3 bg-dark-2/50 p-4 transition-colors duration-300 hover:border-gold/40"
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{e.icon}</span>
@@ -81,6 +81,24 @@ export default function EventsSection() {
               ))}
             </motion.div>
           </div>
+
+          {/* Signature venues — explicit performing-arts & exposition capability */}
+          <motion.div
+            variants={itemVariants}
+            className="mt-6 border-t border-dark-3 pt-5"
+          >
+            <div className="mb-3 text-xs uppercase tracking-[0.25em] text-gold">
+              Signature Venues
+            </div>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85">
+              {EVENT_VENUES.map((v) => (
+                <span key={v} className="flex items-center gap-2">
+                  <span className="h-1 w-1 rounded-full bg-gold" />
+                  {v}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </>
       )}
     </SectionShell>
