@@ -100,11 +100,11 @@ src/
 
 ## 🤖 How AI Was Used
 
-This project was built **with Claude (Claude Code, Opus)** as the primary collaborator:
+This project was built **with an AI coding assistant** as the primary collaborator:
 
 - **Architecture & code** — component structure, the scroll-snap deck shell, IntersectionObserver-driven section tracking, custom hooks (scroll-reveal, reduced-motion, count-up), and the context-driven modal system.
 - **Generative visual assets** — rather than stock photography, the hero aurora, light sweep, film grain, and the luxury "atelier" panel are **AI-authored CSS/SVG** — fully self-contained, themeable, and zero-weight over the wire.
-- **Narrative & copy** — section headlines, pitch language, and the data model (stat counters, floor mixes, sponsorship tiers, leasing paths) were drafted and refined with Claude to drive toward the three business actions.
+- **Narrative & copy** — section headlines, pitch language, and the data model (stat counters, floor mixes, sponsorship tiers, leasing paths) were drafted and refined with AI to drive toward the three business actions.
 - **QA** — layout, responsiveness, and interaction flows were validated programmatically across breakpoints.
 
 **Content note:** the property's scale and entertainment offering (Nickelodeon Universe, DreamWorks Water Park, Big SNOW, SEA LIFE, etc.) are drawn from American Dream's public materials. Specific figures (visitor counts, demographics, tier availability) are illustrative presentation values for this interview exercise.
@@ -160,4 +160,4 @@ The brief asks the architecture to grow into deeper sub-modules without a rewrit
 
 ---
 
-Built with React, TypeScript, Tailwind, and Framer Motion — and Claude.
+Built with React, TypeScript, Tailwind, and Framer Motion.

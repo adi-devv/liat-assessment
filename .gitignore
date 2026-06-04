@@ -36,7 +36,7 @@ Thumbs.db
 # Vercel
 .vercel
 
-# Claude Code tooling & internal working notes (not part of the deliverable).
-# Remove these two lines if you'd rather keep them tracked in the public repo.
-.claude/
-CLAUDE.md
+# Local tooling & working notes (not part of the deliverable)
+.vscode/
+*.local
+notes/
