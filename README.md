@@ -4,8 +4,8 @@ An immersive, browser-based **sales deck** for [American Dream](https://www.amer
 
 This is **not a website and not a slide export** — it's a purpose-built, self-contained interactive pitch tool. A salesperson can screen-share it on a live call, or send the link to a prospect who explores it alone. Every section drives toward one of three business actions: **sign a lease, commit to a sponsorship, or book an event.**
 
-> 🔗 **Live demo:** https://adi-devv.github.io/american-dream-deck/
-> 📦 **Repository:** https://github.com/adi-devv/american-dream-deck
+> 🔗 **Live demo:** https://adi-devv.github.io/liat-assessment/
+> 📦 **Repository:** https://github.com/adi-devv/liat-assessment
 
 ---
 
@@ -120,7 +120,7 @@ This project was built **with Claude (Claude Code, Opus)** as the primary collab
 
 ## ☁️ Deployment
 
-**GitHub Pages (live):** every push to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds and publishes to Pages — no manual steps. The production `base` is preset to `/american-dream-deck/` in [`vite.config.ts`](vite.config.ts) so assets resolve under the project path.
+**GitHub Pages (live):** every push to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds and publishes to Pages — no manual steps. The production `base` is preset to `/liat-assessment/` in [`vite.config.ts`](vite.config.ts) so assets resolve under the project path.
 
 **Vercel:** the included [`vercel.json`](vercel.json) rewrites all routes to `index.html`. If deploying here instead, set `base: '/'` for the build (Vercel serves from the domain root); Vercel auto-detects the build command and `dist/` output.
 
