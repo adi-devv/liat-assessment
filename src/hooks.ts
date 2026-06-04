@@ -20,36 +20,6 @@ export function usePrefersReducedMotion(): boolean {
 }
 
 /**
- * Returns `false` on first paint, then flips to `true` once the browser is idle
- * (or after `delay` ms as a fallback). Used to defer non-critical, expensive
- * mounts — e.g. the hero's background video — so they never block first paint,
- * keeping the deck fast and self-contained even if the network is slow.
- */
-export function useIdleFlag(delay = 1200): boolean {
-  const [ready, setReady] = useState(false)
-
-  useEffect(() => {
-    let timer: number
-    type IdleWindow = Window &
-      typeof globalThis & {
-        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number
-        cancelIdleCallback?: (handle: number) => void
-      }
-    const w = window as IdleWindow
-
-    if (typeof w.requestIdleCallback === 'function') {
-      const handle = w.requestIdleCallback(() => setReady(true), { timeout: delay })
-      return () => w.cancelIdleCallback?.(handle)
-    }
-
-    timer = window.setTimeout(() => setReady(true), delay)
-    return () => window.clearTimeout(timer)
-  }, [delay])
-
-  return ready
-}
-
-/**
  * Tracks whether a referenced element is currently within the viewport.
  * Used to trigger section entrance animations on scroll-snap.
  */

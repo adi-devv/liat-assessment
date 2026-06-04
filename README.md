@@ -11,11 +11,11 @@ This is **not a website and not a slide export** — it's a purpose-built, self-
 
 ## ✨ Highlights
 
-- **Cinematic, self-contained hero** — an AI-authored generative aurora (CSS/SVG mesh gradient, light sweep, particles, film grain) that paints instantly, with the official American Dream reel lazy-loaded on top as a progressive enhancement.
+- **Cinematic, self-contained hero** — an AI-authored generative aurora (CSS/SVG mesh gradient, light sweep, particles, film grain) that paints instantly. The official American Dream reel is available on demand — an opt-in *Ambient film* toggle, plus the full reel in **Watch the Story** — so the default load stays fast.
 - **Non-linear navigation** — jump anywhere via the side dot-nav, **keyboard** (`↑/↓`, `PageUp/Down`, `Home/End`), or in-section CTAs. The viewer controls the journey.
 - **Ten story beats** — Hero → Scale → Retail → Luxury → Dining → Entertainment → Events → Leasing → Sponsorship → Contact, including working **Leasing** and **Sponsorship** sub-modules.
 - **Action-oriented** — a context-aware inquiry modal (Leasing / Sponsorship / Event Booking / General) is reachable from every section.
-- **Zero always-on external images** — every section background is generated in-app, so the deck is fast and resilient even on a flaky conference-room connection.
+- **Fully self-contained** — generative section backgrounds *and* self-hosted fonts mean **zero external requests**; the deck stays fast and resilient even on a flaky conference-room connection.
 - **Accessible & polished** — full keyboard control, visible focus rings, `prefers-reduced-motion` support, ARIA labelling, and a graceful error boundary.
 
 ---
@@ -28,9 +28,11 @@ This is **not a website and not a slide export** — it's a purpose-built, self-
 | Build | **Vite 5** | Instant HMR, tiny optimized production bundle. |
 | Styling | **Tailwind CSS 3** | Rapid, consistent luxury design system via a small custom theme (gold/dark, Playfair + Inter). |
 | Animation | **Framer Motion 11** | Orchestrated, scroll-triggered entrance choreography that respects reduced-motion. |
-| Deploy | **Vercel** (`vercel.json` included) | One-command SPA deploy. |
+| Deploy | **GitHub Pages** (Actions CI/CD) | Auto-deploys on every push to `main`; `vercel.json` also included for Vercel. |
 
-Production bundle: **~96 KB gzipped JS / ~7 KB gzipped CSS**, no external image requests.
+Production bundle: **~96 KB gzipped JS**, fully self-contained (self-hosted fonts, zero external requests).
+
+**Verified Lighthouse** (run against the live URL): **98 desktop / 92 mobile** Performance · **100** Accessibility · **100** Best Practices · **100** SEO.
 
 ---
 
@@ -84,9 +86,9 @@ src/
 
 **1. A deck, not a webpage.** The whole experience is a full-viewport, scroll-snapped sequence with `scroll-snap-type: y mandatory`. Combined with the side dot-nav and keyboard controls, it reads like a presentation you *drive*, not a page you scroll. Navigation is non-linear — the brief's explicit requirement.
 
-**2. Self-contained by design.** External media is a liability for a tool that "will be tested" on unknown networks and screen-shared live. I removed all always-on third-party image dependencies and replaced them with **generative visuals** (layered CSS mesh gradients, SVG noise grain, an architectural pinstripe motif for the luxury wing). The result paints instantly, scores well on performance, and never shows a broken image.
+**2. Self-contained by design.** External media is a liability for a tool that "will be tested" on unknown networks and screen-shared live. Every always-on third-party dependency is gone: section backgrounds are **generative visuals** (layered CSS mesh gradients, SVG noise grain, an architectural pinstripe motif for the luxury wing), and the two typefaces are **self-hosted** (only the weights actually used). The deployed page makes **zero external requests** — it paints instantly and never shows a broken asset.
 
-**3. Video as progressive enhancement.** The brief asks for video-first storytelling, but an always-on autoplay YouTube `<iframe>` blocks first paint, never lets the page reach network-idle, and exposes third-party chrome. So the hero ships a gorgeous generative base that stands on its own, then **defers** the muted, looping American Dream reel (via `requestIdleCallback`) and fades it in beneath the overlays. The real footage is also front-and-center in the **"Watch the Story"** modal. Best of both: cinematic *and* robust.
+**3. Video as deliberate, not default-heavy.** The brief asks for video-first storytelling, but an always-on autoplay YouTube `<iframe>` pulls ~940 KB of third-party JS, blocks first paint, and tanked the Lighthouse score to 76. So the hero ships a gorgeous generative base that stands on its own; the **primary** video moment is the full-screen **"Watch the Story"** reel (one prominent click), and the looping ambient background is an **opt-in toggle** that only fetches YouTube when a viewer asks for it. Result: video stays central to the story, but the default load is light — Lighthouse Performance went 76 → **98 desktop / 92 mobile**.
 
 **4. Luxury visual language.** A restrained palette (near-black + a single gold accent), a serif/sans pairing (Playfair Display + Inter), generous negative space, ultrawide letter-spacing, and slow, eased motion — the vocabulary of Apple/Hermès rather than a typical retail site.
 
@@ -100,7 +102,7 @@ src/
 
 This project was built **with Claude (Claude Code, Opus)** as the primary collaborator:
 
-- **Architecture & code** — component structure, the scroll-snap deck shell, IntersectionObserver-driven section tracking, custom hooks (deferred mount, reduced-motion, count-up), and the context-driven modal system.
+- **Architecture & code** — component structure, the scroll-snap deck shell, IntersectionObserver-driven section tracking, custom hooks (scroll-reveal, reduced-motion, count-up), and the context-driven modal system.
 - **Generative visual assets** — rather than stock photography, the hero aurora, light sweep, film grain, and the luxury "atelier" panel are **AI-authored CSS/SVG** — fully self-contained, themeable, and zero-weight over the wire.
 - **Narrative & copy** — section headlines, pitch language, and the data model (stat counters, floor mixes, sponsorship tiers, leasing paths) were drafted and refined with Claude to drive toward the three business actions.
 - **QA** — layout, responsiveness, and interaction flows were validated programmatically across breakpoints.
@@ -140,7 +142,7 @@ The brief asks the architecture to grow into deeper sub-modules without a rewrit
 
 ## 🔮 What I'd Improve With More Time
 
-- **Self-hosted, optimized hero video** (compressed MP4/WebM with a poster frame) instead of a YouTube embed — full control over the cinematic background with no third-party chrome.
+- **Self-hosted, optimized hero video** (a compressed, muted MP4/WebM with a poster frame) so the looping ambient background could autoplay by default — no YouTube weight, no third-party chrome — instead of today's opt-in toggle.
 - **Genuinely AI-generated raster imagery** (e.g. rendered interior/exterior shots of each wing) to complement the generative CSS visuals.
 - **An interactive 3D / mapped floor plan** for the leasing module — click a unit to see availability and start an inquiry.
 - **Real form submission** wired to a CRM/email endpoint, plus lightweight analytics on which sections and CTAs convert.
