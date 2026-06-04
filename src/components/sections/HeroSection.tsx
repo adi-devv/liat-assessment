@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { HERO_VIDEO_ID, TICKER_ITEMS } from '../../data'
-import { useIdleFlag, usePrefersReducedMotion } from '../../hooks'
+import { usePrefersReducedMotion } from '../../hooks'
 import Ticker from '../ui/Ticker'
 
 interface HeroSectionProps {
@@ -24,25 +24,27 @@ const item = {
 
 export default function HeroSection({ onExplore, onWatch }: HeroSectionProps) {
   const reducedMotion = usePrefersReducedMotion()
-  const idleReady = useIdleFlag(900)
+  const [ambientOn, setAmbientOn] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
 
-  // `?novideo` disables the background video — handy for QA, low-bandwidth, or
-  // screen-sharing where a moving background is distracting.
+  // `?novideo` hard-disables the background video (QA / low-bandwidth demos).
   const noVideoParam =
     typeof window !== 'undefined' &&
     new URLSearchParams(window.location.search).has('novideo')
 
-  // The background video is a progressive enhancement only: it mounts after
-  // first paint (idle), and never for reduced-motion users. The generative
-  // visual below always carries the experience on its own.
-  const showVideo = !reducedMotion && !noVideoParam && idleReady
+  // The background film is OPT-IN. The generative visual below carries the
+  // hero on its own and keeps the initial load fast & fully self-contained
+  // (no ~940 KB YouTube payload unless the viewer asks for it). The real
+  // footage is always one click away via "Watch the Story".
+  const showVideo = ambientOn && !reducedMotion && !noVideoParam
+  const ambientAvailable = !reducedMotion && !noVideoParam
 
-  // Reveal the video once the embed has loaded, with a fallback timer so we
-  // still fade it in if the iframe's load event is unreliable.
   useEffect(() => {
-    if (!showVideo) return
-    const t = window.setTimeout(() => setVideoReady(true), 2200)
+    if (!showVideo) {
+      setVideoReady(false)
+      return
+    }
+    const t = window.setTimeout(() => setVideoReady(true), 2000)
     return () => window.clearTimeout(t)
   }, [showVideo])
 
@@ -59,7 +61,7 @@ export default function HeroSection({ onExplore, onWatch }: HeroSectionProps) {
           <span className="hero-blob hero-blob--indigo" />
         </div>
 
-        {/* Deferred real footage, fading in beneath the overlays */}
+        {/* Opt-in real footage, fading in beneath the overlays */}
         {showVideo && (
           <iframe
             className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-[100vh] w-[177.78vh] min-w-[100vw] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[1500ms] ease-out"
@@ -141,6 +143,25 @@ export default function HeroSection({ onExplore, onWatch }: HeroSectionProps) {
           </button>
         </motion.div>
       </motion.div>
+
+      {/* Opt-in ambient-film toggle — keeps the default load fast (no YouTube
+          payload) while leaving the background film discoverable. */}
+      {ambientAvailable && (
+        <button
+          onClick={() => setAmbientOn((v) => !v)}
+          aria-pressed={ambientOn}
+          className="absolute bottom-24 right-6 z-10 hidden items-center gap-2 rounded-full border border-white/20 bg-black/30 px-3.5 py-2 text-[10px] uppercase tracking-[0.2em] text-white/70 backdrop-blur-sm transition-colors duration-300 hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:inline-flex"
+        >
+          <svg width="11" height="11" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+            {ambientOn ? (
+              <path d="M3 2h3v10H3zM8 2h3v10H8z" />
+            ) : (
+              <path d="M2 1.5v11l10-5.5z" />
+            )}
+          </svg>
+          {ambientOn ? 'Pause film' : 'Ambient film'}
+        </button>
+      )}
 
       {/* Scroll indicator */}
       <button
